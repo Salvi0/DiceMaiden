@@ -23,7 +23,7 @@ def alias_input_pass(input)
     [/\bd6s\b/i, '1 die D6 System', /\bd6s\b/i, '\\1d6ie'], # Single die role for the D6 System
     [/\bsr\d+\b/i, 'Shadowrun', /\bsr(\d+)\b/i, '\\1d6 t5'], # Shadowrun system
     [/\b\d+d%\B/i, 'Percentile roll', /\b(\d+)d%\B/i, '\\1d100'], # Roll a d100
-    [/\bsp\d+\b/i, 'Storypath', /\bsp(\d+)\b/i, 'ul \\1d10 ie10 t8'], # storypath system
+    [/\bsp\d+\b/i, 'Storypath', /\bsp(\d+)\b/i, '\\1d10 ie10 t8'], # storypath system
     [/\b\d+yz\b/i, 'Year Zero', /\b(\d+)yz\b/i, '\\1d6 t6'], # year zero system
     [/\bdndstats\b/i, 'DnD Stat-roll', /\b(dndstats)\b/i, '6 4d6 k3'], # DnD character stats - 4d6 drop lowest 6 times
     [/\battack\b/i, 'DnD attack roll', /\b(attack)\b/i, '1d20'], # DnD attack roll
@@ -95,6 +95,7 @@ def check_comment(event_roll)
     event_roll.slice! @comment
     event_roll.slice! '!'
   end
+  @parsed_event_roll = event_roll
 end
 
 def check_roll(event)
@@ -444,7 +445,9 @@ Find more commands at https://github.com/Humblemonk/DiceMaiden or join the Dice 
 
 @alias_help = "
 ```
-Supported Aliases:
+  Full list of aliases can be found on github.
+
+  Example Supported Aliases:
 
 \t/roll dd## — Double Digits
 \t\tRolls a die of the given size for each digit of the result.
@@ -468,7 +471,9 @@ Supported Aliases:
 
 @system_help = "
 ```
-Supported Systems:
+  Full list of game systems can be found on github.
+
+  Example Supported Game Systems:
 
 \t/roll age — AGE System Test
 \t\tRolls 2d6 plus one drama/dragon/stunt die.

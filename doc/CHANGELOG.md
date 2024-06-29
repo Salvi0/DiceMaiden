@@ -1,3 +1,21 @@
+## 9.0.4 -2024-06-29
+### Added
+- Resolved an issue with wrath and glory difficulty rolls
+
+## 9.0.3 -2024-06-27
+### Added
+- Updated multi roll logic to use semi colons to break between roll sets.
+  Resolves an issue with doing division commands
+
+## 9.0.2 -2024-06-24
+### Added
+- Resolved an issue where numbers in comments broke rolls
+- Updated help commands
+
+## 9.0.1 -2024-06-23
+### Added
+- Resolved an issue with storypath alias rolls not exploding
+
 ## 9.0.0  -2024-06-23
 ### Added
 - Added support for rolling up to 4 unique dice rolls per command

@@ -1,6 +1,6 @@
 # Dice bot for Discord
 # Author: Humblemonk
-# Version: 9.0.0
+# Version: 9.0.4
 # Copyright (c) 2017. All rights reserved.
 # !/usr/bin/ruby
 # If you wish to run a single instance of this bot, please follow the "Manual Install" section of the readme!
@@ -54,13 +54,14 @@ inc_cmd = lambda do |event|
   response_array = []
   begin
     inc_event_roll = event.options.values.join('')
-    rolls_array = inc_event_roll.split(%r{\s*/\s*}).take(4)
+    rolls_array = inc_event_roll.split(/\s*;\s*/).take(4)
     rolls_array.each do |event_roll|
       @do_tally_shuffle = false
       check_comment(event_roll)
-      @roll_request = event_roll.dup
+      # grab roll request after we remove the comment section
+      @roll_request = @parsed_event_roll.dup
 
-      @input = alias_input_pass(event_roll) # Do alias pass as soon as we get the message
+      @input = alias_input_pass(@parsed_event_roll) # Do alias pass as soon as we get the message
       @simple_output = false
       @wng = false
       @dh = false
@@ -76,6 +77,7 @@ inc_cmd = lambda do |event|
       @reroll_indefinite_check = 0
       @reroll_count = 0
       @botch = 0
+      @dnum = ''
 
       check_roll_modes
       next if @ed && !replace_earthdawn(event)
@@ -92,7 +94,7 @@ inc_cmd = lambda do |event|
       # check user
       check_user_or_nick(event)
       # check for empty roll
-      if event_roll.empty?
+      if @parsed_event_roll.empty?
         event.respond(content: "#{@user} roll is empty! Please type a complete dice roll message")
         next
       end
@@ -100,7 +102,7 @@ inc_cmd = lambda do |event|
       check_universal_modifiers
 
       # Check for dn
-      @dnum = @input.scan(/dn\s?(\d+)/).first.join.to_i if @input.match?(/^(1dn)\d+/i)
+      @dnum = @input.scan(/dn\s?(\d+)/).first.join.to_i if @input.match?(/^\s?(dn)\d+/i)
 
       # Check for correct input
       if @roll.match?(/\dd\d/i)
